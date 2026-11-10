@@ -1,0 +1,33 @@
+clc;
+clear;
+close all;
+
+% Folder containing text files
+folder = 'C:\Users\YourName\Documents\Data';
+
+% Get all .txt files
+files = dir(fullfile(folder, '*.txt'));
+
+% Create structure to store data
+data = struct();
+
+% Read each text file
+for i = 1:length(files)
+
+    filename = files(i).name;
+    filepath = fullfile(folder, filename);
+
+    % Read file contents
+    fileData = readmatrix(filepath);
+
+    % Use filename (without extension) as field name
+    [~, name, ~] = fileparts(filename);
+
+    data.(matlab.lang.makeValidName(name)) = fileData;
+
+end
+
+% Save everything into data.mat
+save(fullfile(folder, 'data.mat'), 'data');
+
+disp('All text files successfully saved to data.mat');
